@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html data-ng-app="mycricinfo">
+
+<head>
+    <title>Crick Info</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.js"></script>
+    <script src="http://unpkg.com/angular-ui-router/release/angular-ui-router.min.js"></script>
+</head>
+
+<body>
+    <div>
+        <a ui-sref="home">Home</a>
+    </div>
+    <section>
+        <ui-view></ui-view>
+    </section>
+</body>
+<script type="text/javascript">
+var app = angular.module('mycricinfo', ['ui.router']);
+
+app.controller('runsController', function(scoreService) {
+    this.runs = scoreService.getRuns();
+    this.oneRun = function() {
+        this.runs = scoreService.oneRun();
+    }
+});
+app.controller('oversController', function(scoreService) {
+    this.overs = scoreService.getOvers();
+    this.oneOver = function() {
+        this.overs = scoreService.oneOver();
+    }
+});
+app.controller('mycontroller', ['$scope', function($scope) {
+    $scope.greeting = "Hello watchers";
+}]);
+app.config(function($urlRouterProvider, $stateProvider) {
+    $urlRouterProvider.otherwise('/home');
+    $stateProvider.state('home', {
+        url: '/home',
+        templateUrl: 'home.html',
+        controller: 'mycontroller'
+    });
+    $stateProvider.state('home.overs', {
+        url: '/overs',
+        templateUrl: 'overs.html'
+    });
+    $stateProvider.state('home.runs', {
+        url: '/runs',
+        templateUrl: 'runs.html'
+    });
+});
+app.service('scoreService', function() {
+    this.runs = 0;
+    this.overs = 0;
+    this.oneRun = function() {
+        this.runs++;
+        return this.runs;
+    }
+    this.oneOver = function() {
+        this.overs++;
+        return this.overs;
+    }
+    this.getOvers = function() {
+        return this.overs;
+    }
+    this.getRuns = function() {
+        return this.runs;
+    }
+});
+</script>
+
+</html>

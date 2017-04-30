@@ -1,0 +1,17 @@
+<body>
+    <br>
+    <h3>{{greeting}},</h3>
+    <h4>Cricket Score board is here</h4>
+    <div id="clickbuttons">
+        <br>
+        <br>
+        <a ui-sref="home.overs">Overs</a> &nbsp; &nbsp;
+        <a ui-sref="home.runs">Runs</a>
+    </div>
+    <style type="text/css">
+    #clickbuttons {
+        display: flex;
+    }
+    </style>
+    <ui-view></ui-view>
+</body>
